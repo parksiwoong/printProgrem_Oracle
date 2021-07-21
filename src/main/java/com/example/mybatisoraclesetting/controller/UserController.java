@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping(value = "/")
 public class UserController {
     private final UserService userService;
-
+    //private final BoardService boardService;
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;

@@ -1,0 +1,43 @@
+package com.example.mybatisoraclesetting.controller;
+
+import com.example.mybatisoraclesetting.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@Controller(value = "/")
+public class MainController {
+
+    private final UserService userService;
+
+
+    @Autowired
+    public MainController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @RequestMapping(value = "polo", method = RequestMethod.GET)
+    public String main(HttpServletRequest request, HttpServletResponse response) {
+        return "/main/polo";
+    }
+
+   /* @RequestMapping(value = "kakaomap", method = RequestMethod.GET)
+    public String mapGet(HttpServletRequest request, HttpServletResponse response) {
+        return "kakao/kakaomap";
+    }
+*/
+    @ExceptionHandler
+    public void hendleException(HttpServletResponse response, Exception exception) {
+        try {
+            response.getWriter().print(exception.getMessage());
+        } catch (Exception ignored) {
+        }
+    }
+
+}

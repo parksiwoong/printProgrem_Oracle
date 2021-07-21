@@ -11,5 +11,5 @@ import org.apache.ibatis.type.Alias;
 @Alias("UserVo")
 public class UserVo {
     private String name;
-    private int age;
+    private String age;
 }
