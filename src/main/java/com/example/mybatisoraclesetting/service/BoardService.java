@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface BoardService {
-    public List<BoardVo> boardListAll()throws Exception ;
+    public List<BoardVo> boardListAll(BoardVo boardVo)throws Exception ;
 }

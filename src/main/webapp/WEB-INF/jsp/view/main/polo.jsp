@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ include file = "../layout/top.jsp" %>
+
 <section>
     <div class="part1">
         <ul>

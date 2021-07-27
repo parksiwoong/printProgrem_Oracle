@@ -7,5 +7,5 @@ import java.util.List;
 
 @Mapper
 public interface BoardDao {
-    List<BoardVo> boardListAll()throws Exception;
+    List<BoardVo> boardListAll(BoardVo boardVo)throws Exception;
 }
