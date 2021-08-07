@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
-        <footer>
+ <%--       <footer>
             <div>
                 <div class="left">
                     <div>
@@ -15,6 +15,8 @@
                     </a>
                 </div>
             </div>
-        </footer>
+        </footer>--%>
+            </div> <%--print_info end--%>
+        </div>    <%--  lyout_info end--%>
     </body>
 </html>

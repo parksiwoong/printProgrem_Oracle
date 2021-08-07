@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatisoraclesetting.mapperDao.PcDataDao">
+    <select id="pcDataList" resultType="PcDataVo">
+        SELECT
+            *
+        FROM PC_DATALIST
+    </select>
+    <insert id="create">
+        INSERT INTO
+            PC_DATALIST(
+            NO,
+            pcname,
+            CPU,
+            MEM,
+            SSD,
+            HDD,
+            TO_DATE)
+            VALUES (seqpcdatalist.nextval,#{pcname},#{cpu},#{mem},#{ssd},#{hdd},SYSDATE)
+    </insert>
+    <!-- 데이터 추가 -->
+    <insert id="submitinsert" >
+        INSERT INTO
+            PC_DATALIST(
+            NO,
+            pcname,
+            CPU,
+            MEM,
+            SSD,
+            HDD,
+            TO_DATE)
+        VALUES (ROWNUM,#{pcname},#{cpu},#{mem},#{ssd},#{hdd},SYSDATE)
+    </insert>
+    <!-- 데이터 선택 삭제 -->
+    <delete id="deleteData">
+        delete PC_DATALIST
+        where NO = #{no}
+    </delete>
+</mapper>

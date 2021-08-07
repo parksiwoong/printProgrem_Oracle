@@ -22,9 +22,9 @@ public class MainController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "polo", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String main(HttpServletRequest request, HttpServletResponse response) {
-        return "/main/polo";
+        return "/board/index";
     }
 
    /* @RequestMapping(value = "kakaomap", method = RequestMethod.GET)

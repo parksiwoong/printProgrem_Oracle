@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mybatisoraclesetting.mapperDao.UserDao">
-    <select id="listAll" resultType="UserVo">
-        SELECT * FROM TESTUSER
+    <select id="pcDataList" resultType="UserVo">
+        SELECT * FROM
     </select>
 </mapper>

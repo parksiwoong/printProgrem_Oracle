@@ -6,58 +6,46 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="static/css/bottom.css">
-        <link rel="stylesheet" href="static/css/index.css">
-        <link rel="stylesheet" href="static/css/mapapp.css">
-        <link rel="stylesheet" href="static/css/login.css">
-        <link rel="stylesheet" href="static/css/list.css">
-       <%-- <script type="text/javascript" src="scroll_menu.js"></script>--%>
-       <%-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap">--%>
-        <title>POLO</title>
+        <link rel="stylesheet" href="static/css/grid.css">
+   <%--<script type="text/javascript" src="js/deletedata.js"></script>--%>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> <%-- 제이쿼리 실행하려면 실행할 제이쿼리 위에 이걸 적어줘야함--%>
+        <%-- 그리고 type="" 을 빼줘야함 --%>
+        <script src="static/js/pcdata.js"></script>
+        <script src="static/js/deletedata.js"></script>
+        <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+    <%--     <script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>--%>
+      <%--  <script
+                src="https://code.jquery.com/jquery-3.6.0.js"
+                integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+                crossorigin="anonymous">
+        </script>--%>
+        <title>label</title>
     </head>
 <body>
-    <header>
+
+
+
         <link rel="stylesheet" href="">
-        <nav class="clearfix">
-            <div class="left">
-                <p>위치:</p>
-                <select><option>KOREA 한국어</option></select>
-            </div>
-            <div class="logo">
-                <a href="/polo">
-                    <img src="static/img/logo.webp" alt="">
-                </a>
-            </div>
-            <div class="right" style="margin: 10px 0; ">
-                <a href="/login"> <input class="button" type="button" value="l o g i n"></a>
-                <a href="/register"> <input class="button" type="button" value="Sign Up"></a>
-            </div>
-        </nav>
-        <div class="inb">
-            <a href="/polo"><span>promotion</span> </a>
-            <a href="/list/"><span>store</span></a>
-            <a href="/kakaomap"><span>location</span> </a>
-            <a href="/board?id=qna"><span> QNA </span> </a>
-            <span></span>
-        </div>
-        <script type="text/javascript">
-            let dir = window.location.pathname.split('/')[1].split('?')[0];
-            let menus = window.document.body.querySelectorAll('.inb > a');
-            switch (dir) {
-                case 'list':
-                    menus[1].classList.add('on');
-                    break;
-                case 'kakaomap':
-                    menus[2].classList.add('on');
-                    break;
-                case 'board':
-                    menus[3].classList.add('on');
-                    break;
-                default:
-                    menus[0].classList.add('on');
-            }
-        </script>
-    </header>
+        <div class="lyout_info">
+            <div class="top_info" id="top_info">
+             <%--   <c:if test="${ url="" eq value="(url= "blob.naver.com/simpolor")"}">--%>
+                <%--<c:if test="${''ne url= "blob.naver.com/simpolor"}">--%>
+                 <%--<c:if test="${'requestScope['javax.servlet.forward.request_uri']'ne url= "blob.naver.com/simpolor"}--%>
+
+                    <p>Option_View</p>
+                    <select style="display: flex">
+                        <option>tableView</option>
+                        <option >ticketView</option>
+                    </select>
+                    <button id="btn_save">SAVE</button>  <%--DATA 저장 --%>
+        <%--        </c:if>--%>
 
 
-
+                <button id="print" onclick="location.href='/'">write</button>
+                <button id="print" onclick="print()">Print</button>
+                 <button onclick="location.href='/pclist'">DataList</button>
+                 <button id="btnSubmit">Submit</button>
+            </div>
+            <div class=dtadrs id="print_info">

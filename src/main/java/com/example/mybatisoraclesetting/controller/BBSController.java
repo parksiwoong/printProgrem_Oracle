@@ -2,15 +2,15 @@ package com.example.mybatisoraclesetting.controller;
 
 
 import com.example.mybatisoraclesetting.modelVo.BoardVo;
+import com.example.mybatisoraclesetting.modelVo.PcDataVo;
 import com.example.mybatisoraclesetting.service.BoardService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -32,8 +33,7 @@ public class BBSController {
         this.boardService = boardService;
     }
 
-    @RequestMapping(value = "board")
-    @ResponseBody
+    @RequestMapping(value = "datalist")
     public ModelAndView boardlist(HttpServletRequest request, HttpServletResponse response , BoardVo boardVo, Model model) throws Exception {
         ModelAndView mav = new ModelAndView();
         List<BoardVo> boardlist = boardService.boardListAll(boardVo);
@@ -42,28 +42,97 @@ public class BBSController {
             logger.info("board in");
             logger.info(boardlist + "들어갔니");
             mav.addObject("boardlist", boardlist);
-            mav.setViewName("board/poloboard");
+            mav.setViewName("board/datalist");
 
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("############ SQLException ############");
         }
         return mav;
-
-      /*  ModelAndView 방식
-           ModelAndView mav = new ModelAndView();
-        List<BoardVo> boardlist = boardService.boardListAll(boardVo);
-        logger.info(boardlist + "2들어갔니");
-      try {
-            logger.info("board in");
-            logger.info(boardlist + "들어갔니");
-            mav.setViewName("board/poloboard");
-            mav.addObject("boardlist", boardlist);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.error("############ SQLException ############");
-        }
-        return mav;
-    }*/
     }
+
+
+    @RequestMapping(value = "pclist")
+    public ModelAndView pcdatalist(HttpServletRequest request, HttpServletResponse response , PcDataVo pcDataVo, Model model) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        List<PcDataVo> datalist = boardService.pcDataList(pcDataVo);
+        logger.info(datalist + "2들어갔니");
+        try {
+            logger.info("board in");
+            logger.info(datalist + "들어갔니");
+            mav.addObject("datalist", datalist);
+            mav.setViewName("board/datalist");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("############ SQLException ############");
+        }
+        return mav;
+    }
+
+    //,method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE
+    // raw data AJAX 로 받아왔을때 @RequestBody
+    @RequestMapping(value = "dtsave")
+    @ResponseBody
+    //public Object insert(@ModelAttribute("") PcDataVo pcDataVo)throws Exception{
+    public Object insert(@RequestBody PcDataVo param, HttpServletRequest request )throws Exception{
+        logger.info("###"+param);
+       // String no =  param.get("no").toString();
+        // ==
+        // no = request.getParameter("no");
+
+//
+//        List<String> ssds =(List<String>) param.get("ssd");
+//        for(int i=0; i<ssds.size(); i++){
+//            System.out.println(String.format("%d\t%s", i, ssds.get(i)));
+//        }
+
+        /*
+        String[] ssds =(String[]) param.get("ssd");
+        // ==
+        ssds = request.getParameterValues("ssd");
+        */
+
+
+        System.out.println(param);
+
+
+        return boardService.create(param) ;//boardService.create(pcDataVo);boardService.create(param)
+    }
+
+    //,method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE
+    @RequestMapping(value = "submits") //submit 으로 받을때 submit은 name으로 전달
+    @ResponseBody
+    //public Object insert(@ModelAttribute("") PcDataVo pcDataVo)throws Exception{
+    public Object submits(@ModelAttribute("pageInfo") PcDataVo pcDataVo)throws Exception{
+        System.out.println(pcDataVo);
+
+/*
+        for(int i=0; i<   pcDataVo.getSsd().length; i++){
+            System.out.println(String.format("%d\t%s", i, pcDataVo.getSsd()[i]));
+        }*/
+
+        return  boardService.submitinsert(pcDataVo);//boardService.create(pcDataVo);
+    }
+
+    // 데이터 삭제
+    @ResponseBody
+    @RequestMapping(value = "deleteData", method = RequestMethod.POST)
+    public int deleteData(@RequestParam(value = "chBox[]", required=false)List<String> chArr , PcDataVo pcDataVo) throws Exception {
+        logger.info("delete data", chArr);
+        System.out.println(chArr);
+        int result= 0;
+        int dataNo = 0;
+
+        if(!chArr.isEmpty()) {          //비어있지않다면
+            for (String i : chArr) {            // 반복해서 chArr 의 길이만큼 (i 는 chArr에 들어있는 chBox[] 객체들)
+                System.out.println(i+ "뭔지확인");
+                dataNo = Integer.parseInt(i);   // json 을 인티저 타입으로 변형해 빈객체 dataNo 에 넣어줌
+                pcDataVo.setNo(dataNo);         // 넣어준dataNo 를 Vo no 에 다시 넣어줌
+                boardService.deleteData(pcDataVo);
+            }
+            result = 1; // 성공시  ajax 로 1반환
+        }
+        return result;
+    };
 }
