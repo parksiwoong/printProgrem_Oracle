@@ -2,6 +2,8 @@ package com.example.mybatisoraclesetting.controller;
 
 
 import com.example.mybatisoraclesetting.modelVo.BoardVo;
+import com.example.mybatisoraclesetting.modelVo.Criteria;
+import com.example.mybatisoraclesetting.modelVo.PageMarker;
 import com.example.mybatisoraclesetting.modelVo.PcDataVo;
 import com.example.mybatisoraclesetting.service.BoardService;
 import org.apache.logging.log4j.LogManager;
@@ -33,8 +35,10 @@ public class BBSController {
         this.boardService = boardService;
     }
 
+
+    //test
     @RequestMapping(value = "datalist")
-    public ModelAndView boardlist(HttpServletRequest request, HttpServletResponse response , BoardVo boardVo, Model model) throws Exception {
+    public ModelAndView boardlist(HttpServletRequest request, HttpServletResponse response , BoardVo boardVo) throws Exception {
         ModelAndView mav = new ModelAndView();
         List<BoardVo> boardlist = boardService.boardListAll(boardVo);
         logger.info(boardlist + "2들어갔니");
@@ -51,16 +55,23 @@ public class BBSController {
         return mav;
     }
 
-
+    // 게시판 데이터 리스트
     @RequestMapping(value = "pclist")
-    public ModelAndView pcdatalist(HttpServletRequest request, HttpServletResponse response , PcDataVo pcDataVo, Model model) throws Exception {
+    public ModelAndView pcdatalist(HttpServletRequest request, HttpServletResponse response , PcDataVo pcDataVo, Criteria criteria) throws Exception {
         ModelAndView mav = new ModelAndView();
-        List<PcDataVo> datalist = boardService.pcDataList(pcDataVo);
+        PageMarker pageMarker = new PageMarker();
+        pageMarker.setCriteria(criteria);  // set에 pageMarker의 로직에 정보를 집어넣어줘야함
+       // pageMarker.setTotalCount(1000);
+
+        List<PcDataVo> datalist = boardService.pcDataList(criteria); // 목록
+        System.out.println(pageMarker + "pargeMarker");
+        pageMarker.setTotalCount(boardService.listCount(criteria)); //총게시물수
         logger.info(datalist + "2들어갔니");
         try {
             logger.info("board in");
             logger.info(datalist + "들어갔니");
             mav.addObject("datalist", datalist);
+            mav.addObject("pageMarker", pageMarker);
             mav.setViewName("board/datalist");
 
         } catch (Exception e) {
@@ -70,8 +81,8 @@ public class BBSController {
         return mav;
     }
 
-    //,method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE
     // raw data AJAX 로 받아왔을때 @RequestBody
+    //,method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE
     @RequestMapping(value = "dtsave")
     @ResponseBody
     //public Object insert(@ModelAttribute("") PcDataVo pcDataVo)throws Exception{
@@ -122,13 +133,13 @@ public class BBSController {
         logger.info("delete data", chArr);
         System.out.println(chArr);
         int result= 0;
-        int dataNo = 0;
+        int dataBno = 0;
 
         if(!chArr.isEmpty()) {          //비어있지않다면
             for (String i : chArr) {            // 반복해서 chArr 의 길이만큼 (i 는 chArr에 들어있는 chBox[] 객체들)
                 System.out.println(i+ "뭔지확인");
-                dataNo = Integer.parseInt(i);   // json 을 인티저 타입으로 변형해 빈객체 dataNo 에 넣어줌
-                pcDataVo.setNo(dataNo);         // 넣어준dataNo 를 Vo no 에 다시 넣어줌
+                dataBno = Integer.parseInt(i);   // json 을 인티저 타입으로 변형해 빈객체 dataNo 에 넣어줌
+                pcDataVo.setBno(dataBno);         // 넣어준dataNo 를 Vo no 에 다시 넣어줌
                 boardService.deleteData(pcDataVo);
             }
             result = 1; // 성공시  ajax 로 1반환

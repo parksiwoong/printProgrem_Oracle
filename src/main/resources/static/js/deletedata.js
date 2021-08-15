@@ -43,7 +43,6 @@ $(document).ready(function (){
                 if(result==1){
                     alert("성공적으로 지워졌습니다.");
                     window.location.href = 'http://127.0.0.1:81/pclist';
-
                 }else{
                     alert("삭제 실패");
                 }

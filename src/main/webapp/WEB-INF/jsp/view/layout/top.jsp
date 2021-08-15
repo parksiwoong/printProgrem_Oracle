@@ -24,9 +24,6 @@
         <title>label</title>
     </head>
 <body>
-
-
-
         <link rel="stylesheet" href="">
         <div class="lyout_info">
             <div class="top_info" id="top_info">

@@ -2,15 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mybatisoraclesetting.mapperDao.PcDataDao">
-    <select id="pcDataList" resultType="PcDataVo">
+    <select id="pcDataList" resultType="PcDataVo" parameterType="Criteria">/*PcDataVo*/
         SELECT
-            *
-        FROM PC_DATALIST
+        *
+        FROM (
+              select
+                BNO,
+                pcname,
+                CPU,
+                MEM,
+                SSD,
+                HDD,
+                ROW_NUMBER() OVER(ORDER BY BNO DESC ) AS RNUM
+              from PC_DATALIST)MP
+        WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+        ORDER BY BNO DESC
     </select>
+    <!-- 검색기능-->
+    <select id="listCount" parameterType="SearchCriteria" resultType="int">
+        SELECT
+            BNO,
+               PCNAME
+
+        FROM WHERE
+    </select>
+    <sql id="search">
+        <if test="searchType != null">
+            <if test="searchType == 't', toString()">AND PCNAME LIKE '%' || #{keyword} || '%'</if>
+            <if test="searchType == 't', toString()">AND CPU LIKE  '%' || #{keyword} || '%'</if>
+            <if test="searchType == 't', toString()">AND MEN LIKE '%' || #{keyword} || '%'</if>
+            <if test="searchType == 't', toString()">AND SSD LIKE '%' || #{keyword} || '%'</if>
+            <if test="searchType == 't', toString()">AND HDD LIKE '%' || #{keyword} || '%'</if>
+            <if test="searchType == 't', toString()">AND( PCNAME LIKE '%' || #{keyword} || '%') or (CPU LIKE '%' || #{keyword}||'%')</if>
+        </if>
+    </sql>
+    
+    <select id="listCount" resultType="int">
+	<![CDATA[
+        SELECT COUNT(BNO)
+        FROM PC_DATALIST
+        WHERE BNO > 0
+        ]]>
+	</select>
+
+
     <insert id="create">
         INSERT INTO
             PC_DATALIST(
-            NO,
+            BNO,
             pcname,
             CPU,
             MEM,
@@ -23,7 +62,7 @@
     <insert id="submitinsert" >
         INSERT INTO
             PC_DATALIST(
-            NO,
+            BNO,
             pcname,
             CPU,
             MEM,
@@ -32,9 +71,11 @@
             TO_DATE)
         VALUES (ROWNUM,#{pcname},#{cpu},#{mem},#{ssd},#{hdd},SYSDATE)
     </insert>
+
+
     <!-- 데이터 선택 삭제 -->
     <delete id="deleteData">
         delete PC_DATALIST
-        where NO = #{no}
+        where BNO = #{bno}
     </delete>
 </mapper>
