@@ -1,10 +1,7 @@
 package com.example.mybatisoraclesetting.controller;
 
 
-import com.example.mybatisoraclesetting.modelVo.BoardVo;
-import com.example.mybatisoraclesetting.modelVo.Criteria;
-import com.example.mybatisoraclesetting.modelVo.PageMarker;
-import com.example.mybatisoraclesetting.modelVo.PcDataVo;
+import com.example.mybatisoraclesetting.modelVo.*;
 import com.example.mybatisoraclesetting.service.BoardService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -56,23 +54,40 @@ public class BBSController {
     }
 
     // 게시판 데이터 리스트
-    @RequestMapping(value = "pclist")
-    public ModelAndView pcdatalist(HttpServletRequest request, HttpServletResponse response , PcDataVo pcDataVo, Criteria criteria) throws Exception {
+    @RequestMapping(value = "{url}")
+    public ModelAndView pcdatalist(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   Model model,
+                                   @ModelAttribute("scri") SearchCriteria scri,
+                                   PcDataVo pcDataVo,
+                                   @PathVariable("url")String url
+                                   )throws Exception{
         ModelAndView mav = new ModelAndView();
-        PageMarker pageMarker = new PageMarker();
-        pageMarker.setCriteria(criteria);  // set에 pageMarker의 로직에 정보를 집어넣어줘야함
-       // pageMarker.setTotalCount(1000);
 
-        List<PcDataVo> datalist = boardService.pcDataList(criteria); // 목록
-        System.out.println(pageMarker + "pargeMarker");
-        pageMarker.setTotalCount(boardService.listCount(criteria)); //총게시물수
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCriteria(scri);  // set에 pagemaker의 로직에 정보를 집어넣어줘야함
+        pageMaker.setTotalCount(boardService.listCount(scri)); //총게시물수
+
+        List<PcDataVo> datalist = boardService.pcDataList(scri); // 목록
+        System.out.println(pageMaker + "pageMaker");
+
+
         logger.info(datalist + "2들어갔니");
         try {
             logger.info("board in");
             logger.info(datalist + "들어갔니");
-            mav.addObject("datalist", datalist);
-            mav.addObject("pageMarker", pageMarker);
-            mav.setViewName("board/datalist");
+            mav.addObject("datalist", datalist); // 리스트기능
+            mav.addObject("pageMaker", pageMaker); //페이지기능
+
+            //mav.addObject("scri",scri); //검색기능
+
+            //       mav.addObject("read",boardService.read(pcDataVo.getBno())); //검색찾을 번호 호출
+            if(url.equals( "pclist")){
+                mav.setViewName("board/datalist");
+            }else if (url.equals("tablelist")){
+                mav.setViewName("board/tablelist");
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -26,23 +26,32 @@
 <body>
         <link rel="stylesheet" href="">
         <div class="lyout_info">
+            <p class="p">Option_View</p>
             <div class="top_info" id="top_info">
              <%--   <c:if test="${ url="" eq value="(url= "blob.naver.com/simpolor")"}">--%>
                 <%--<c:if test="${''ne url= "blob.naver.com/simpolor"}">--%>
                  <%--<c:if test="${'requestScope['javax.servlet.forward.request_uri']'ne url= "blob.naver.com/simpolor"}--%>
 
-                    <p>Option_View</p>
-                    <select style="display: flex">
-                        <option>tableView</option>
-                        <option >ticketView</option>
+
+                    <select id="selectList" onchange="location.href=this.value" style="display: flex ">
+                        <option value="/">리스트뷰선택</option>
+                        <option value="/pclist">pclist</option>
+                        <option value="/tablelist" >tablelist</option>
                     </select>
-                    <button id="btn_save">SAVE</button>  <%--DATA 저장 --%>
+         <%--        <script>  //셀렉트박스 클릭
+                     $(function(){
+                         $('#selectList > option').on('click', function (){
+                             self.location = "/" + $("select[id=selectList] option:selected").val();
+                         })
+                     });
+                 </script>--%>
+
         <%--        </c:if>--%>
 
 
                 <button id="print" onclick="location.href='/'">write</button>
                 <button id="print" onclick="print()">Print</button>
-                 <button onclick="location.href='/pclist'">DataList</button>
-                 <button id="btnSubmit">Submit</button>
-            </div>
-            <div class=dtadrs id="print_info">
+                <%-- <button onclick="location.href='/pclist'">DataList</button>--%>
+              <%--   <button id="btnSubmit">Submit</button>  //submit 방법 --%>
+                 <button id="btn_save">SAVE</button>  <%--DATA 저장 --%>
+            </div> <%--top_info end --%>

@@ -1,8 +1,18 @@
 $(document).ready(function (){
+
+
     // pc no 안적으면 경고창으로 알려주고 적었다면 save로 pass!
+    if (location.href='/'){
+        const target = document.getElementById('btn_save');
+        target.disabled = true;
+    }else {
+        const target = document.getElementById('btn_save');
+        target.disabled = false;
+    }
+
     $("#btn_save").on("click", function() {
         if ($("#pcname").val() ===''){
-            alert("적어");
+            alert("pcname가 비었습니다");
             $('#pcname').focus();
             return false;
         }else {
@@ -72,24 +82,28 @@ $(document).ready(function (){
     });
 
 
-    /* 프린트버튼 클릭시 활성화 */
-    $('#print').click(function(){
-        makeHtml(); //프린트할 내용의 함수
-    });
 
 
-    // 인쇄할 html 보이는 영역
-    function makeHtml(){
+
+    function markeHtml(){
         var initBody;
-        window.onbeforeprint = function (){
+        window.onbeforeprint = function(){
             initBody = document.body.innerHTML;
-            document.body.innerHTML = document.getElementById('print_info').innerHTML;
+            document.body.innerHTML =  document.getElementById('print_info').innerHTML;
         };
+        window.onafterprint = function(){
+            document.body.innerHTML = initBody;
+        };
+
+
         window.print();
         return false;
     }
 
-
+    /* 프린트버튼 클릭시 활성화 */
+    $('#print').click(function(){
+        markeHtml(); //프린트할 내용의 함수
+    });
 
     // 인쇄할 html 보이는 영역 다른방법
     /* function makeHtml(){
@@ -102,6 +116,14 @@ $(document).ready(function (){
          window.print();
      }*/
 });
+
+/*search 버튼 //찾기 */
+/*$(function(){
+    $('#searchBtn').on('click', function(){
+        self.location = "pclist" + '${pagemaker.markeQuery(1)}' + "&searchType=" + $("select option:selected").val() + "&keyword=" + encodeURIComponent($('#keywordInput').val());
+    });
+});*/
+
 
 function getNameByValues(obj) {
     var list = [];

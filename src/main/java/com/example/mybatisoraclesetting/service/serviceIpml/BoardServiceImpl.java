@@ -5,6 +5,7 @@ import com.example.mybatisoraclesetting.mapperDao.PcDataDao;
 import com.example.mybatisoraclesetting.modelVo.BoardVo;
 import com.example.mybatisoraclesetting.modelVo.Criteria;
 import com.example.mybatisoraclesetting.modelVo.PcDataVo;
+import com.example.mybatisoraclesetting.modelVo.SearchCriteria;
 import com.example.mybatisoraclesetting.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,13 +31,13 @@ public class BoardServiceImpl implements BoardService{
     }
     // 게시물 목록 조회
     @Override
-    public List<PcDataVo> pcDataList(Criteria criteria)throws Exception{
-        return pcDataDao.pcDataList(criteria);
+    public List<PcDataVo> pcDataList(SearchCriteria scri)throws Exception{
+        return pcDataDao.pcDataList(scri);
     }
     // 총 게시물 겟수
     @Override
-    public int listCount(Criteria criteria) throws Exception {
-        return pcDataDao.listCount(criteria);
+    public int listCount(SearchCriteria scri) throws Exception {
+        return pcDataDao.listCount(scri);
     }
 
     @Override

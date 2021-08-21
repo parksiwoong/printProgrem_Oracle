@@ -1,13 +1,16 @@
 package com.example.mybatisoraclesetting.modelVo;
 
+import com.sun.deploy.net.URLEncoder;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.UnsupportedEncodingException;
+
 @Data
-@Alias("PageMarker")
-public class PageMarker {
+@Alias("PageMaker")
+public class PageMaker {
 /* 페이지 처리 간단 요약
     페이지 번호 출력 처리를 위한 데이터들 : 시작페이지번호, 끝 페이지 번호 , 전체 게시글의 갯수, 이전링크 , 다음링크
     끝 페이지 번호 계산식 : Math.ceil(현재 페이지 번호 / 페이지 번호의 갯수) * 페이지번호의 갯수
@@ -52,7 +55,7 @@ public class PageMarker {
         next = endPage * criteria.getPerPageNum() >= totalCount ? false : true;
     }
 
-    public String makeQuery(int page) { //이건 퍼와서 모름
+  public String makeQuery(int page) {
         UriComponents uriComponents =
                 UriComponentsBuilder.newInstance()
                         .queryParam("page", page)
@@ -60,5 +63,30 @@ public class PageMarker {
                         .build();
 
         return uriComponents.toUriString();
+    }
+    // 검색어 관련
+    public String makeSearch(int page)
+    {
+        // page, perPageNum, searchType, keyword를 url로 사용할수있게
+        UriComponents uriComponents =
+                UriComponentsBuilder.newInstance()
+                        .queryParam("page", page)
+                        .queryParam("perPageNum", criteria.getPerPageNum())
+                        .queryParam("searchType", ((SearchCriteria)criteria).getSearchType())
+                        .queryParam("keyword", encoding(((SearchCriteria)criteria).getKeyword()))
+                        .build();
+        return uriComponents.toUriString();
+    }
+
+    private String encoding(String keyword) {
+        if(keyword == null || keyword.trim().length() == 0) {
+            return "";
+        }
+
+        try {
+            return URLEncoder.encode(keyword, "UTF-8");
+        } catch(UnsupportedEncodingException e) {
+            return "";
+        }
     }
 }
