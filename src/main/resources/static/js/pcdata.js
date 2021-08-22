@@ -1,16 +1,24 @@
 $(document).ready(function (){
-
-
-    // pc no 안적으면 경고창으로 알려주고 적었다면 save로 pass!
-    if (location.href='/'){
+    var url = location.href;
+    if(location.href != 'http://127.0.0.1:81/'){
         const target = document.getElementById('btn_save');
         target.disabled = true;
-    }else {
+    }  if (location.href == 'http://127.0.0.1:81/') {
         const target = document.getElementById('btn_save');
         target.disabled = false;
     }
+    // pc no 안적으면 경고창으로 알려주고 적었다면 save로 pass!
+    $('#write').on('click',function(){
+        if (location.href='/') {
+            const target = document.getElementById('btn_save');
+            target.disabled = false;
+        }
+    });
 
     $("#btn_save").on("click", function() {
+        // if ('/'== url){
+        //
+        // }
         if ($("#pcname").val() ===''){
             alert("pcname가 비었습니다");
             $('#pcname').focus();

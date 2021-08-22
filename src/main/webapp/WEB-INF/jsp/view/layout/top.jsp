@@ -21,12 +21,12 @@
                 integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
                 crossorigin="anonymous">
         </script>--%>
-        <title>label</title>
+        <title>자원현황조사서</title>
     </head>
 <body>
         <link rel="stylesheet" href="">
         <div class="lyout_info">
-            <p class="p">Option_View</p>
+            <p class="p">자원현황조사서</p>
             <div class="top_info" id="top_info">
              <%--   <c:if test="${ url="" eq value="(url= "blob.naver.com/simpolor")"}">--%>
                 <%--<c:if test="${''ne url= "blob.naver.com/simpolor"}">--%>
